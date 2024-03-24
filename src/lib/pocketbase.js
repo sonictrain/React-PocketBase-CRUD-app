@@ -8,3 +8,8 @@ client.autoCancellation(false);
 export const getTasks = async () => {
     return await client.collection("tasks").getFullList();
 };
+
+export const createTask = async (t, d) => {
+    const data = { title: t, description: d }
+    await client.collection("tasks").create(data);
+}
