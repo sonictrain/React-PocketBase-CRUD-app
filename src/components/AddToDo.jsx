@@ -19,6 +19,14 @@ const AddToDo = () => {
     });
     const [open, setOpen] = useState(false);
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewTaskData({
+            ...newTaskData,
+            [name]: value
+        })
+    }
+
     const handleOpen = () => {
         setOpen((open) => !open);
     };
@@ -40,8 +48,16 @@ const AddToDo = () => {
                         <Typography variant="h4" color="blue-gray">
                             Add a new Task
                         </Typography>
-                        <Input label="Title" size="lg" required/>
-                        <Textarea label="Description" size="lg" required/>
+                        <Input
+                            label="Title"
+                            size="lg"
+                            onChange={handleInputChange}
+                            required />
+                        <Textarea
+                            label="Description"
+                            size="lg"
+                            onChange={handleInputChange}
+                            required />
                     </CardBody>
                     <CardFooter className="pt-0">
                         <Button variant="gradient" onClick={handleOpen} fullWidth>
