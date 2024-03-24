@@ -5,6 +5,7 @@ import {
   Button
 } from "@material-tailwind/react";
 import ToDoList from './components/TodoList';
+import AddToDo from './components/AddToDo';
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
         </ButtonGroup>
       </div>
       <ToDoList />
+      <AddToDo />
     </div>
   )
 }
