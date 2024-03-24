@@ -18,12 +18,12 @@ const ToDoList = () => {
     }, [])
 
     return (
-        <div className='flex flex-col gap-10'>
-            <Typography variant="h3">Task List</Typography>
-            <div className='grid grid-cols-4 gap-4'>
+        <div>
+            <Typography variant="h3" className='text-2xl'>Task List</Typography>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                 {
                     tasks.map((t) => (
-                        <Card key={t.id} className="mt-6 items-start">
+                        <Card key={t.id} className="mt-2 items-start">
                             <Chip value={t.id} variant="ghost" size="sm" className="rounded-full mt-5 ms-5" />
                             <CardBody className="items-start pt-4">
                                 <Typography variant="h5" color="blue-gray" className="mb-2">

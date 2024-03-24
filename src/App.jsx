@@ -10,13 +10,13 @@ import AddToDo from './components/AddToDo';
 const App = () => {
 
   return (
-    <div className='p-20'>
+    <div className='p-8 md:p-12 lg:p-20'>
       <div className="flex flex-row justify-between mb-20">
-        <Typography variant="h1">Task CRUD App</Typography>
-        <ButtonGroup>
+        <Typography variant="h1" className='text-4xl'>React PocketBase App</Typography>
+        {/* <ButtonGroup>
           <Button>Sign In</Button>
           <Button>Sign Up</Button>
-        </ButtonGroup>
+        </ButtonGroup> */}
       </div>
       <ToDoList />
       <AddToDo />
