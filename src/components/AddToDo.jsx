@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import { createTask } from '../lib/pocketbase';
 import {
     IconButton,
     Button,
@@ -9,7 +10,6 @@ import {
     Typography,
     Input,
     Textarea,
-    form
 } from "@material-tailwind/react";
 
 const AddToDo = () => {
@@ -22,7 +22,6 @@ const AddToDo = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(name)
         setNewTaskData({
             ...newTaskData,
             [name]: value
@@ -32,8 +31,11 @@ const AddToDo = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const { title, description } = newTaskData;
-        console.log(`Title: ${title}`);
-        console.log(`Description: ${description}`);
+        if (newTaskData.title !== null && newTaskData.description  !== null) {
+            createTask( title, description);
+        } else {
+            // open error message
+        }
     }
 
     const handleOpen = () => {
