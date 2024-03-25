@@ -19,3 +19,11 @@ export const deleteTask = async (id, confirm) => {
         await client.collection("tasks").delete(id);
     }
 }
+
+export const updateTask = async (id, title, description) => {
+    const data = {
+        title: title,
+        description: description
+    };
+    await client.collection("tasks").update(id, data);
+}
