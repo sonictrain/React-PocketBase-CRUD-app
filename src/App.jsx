@@ -25,7 +25,7 @@ const App = () => {
           <Button>Sign Up</Button>
         </ButtonGroup> */}
       </div>
-      <ToDoList keyData={keyData}/>
+      <ToDoList keyData={keyData} incrementKey={incrementKey}/>
       <AddToDo incrementKey={incrementKey}/>
     </div>
   )
