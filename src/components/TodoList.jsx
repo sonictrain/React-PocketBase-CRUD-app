@@ -13,8 +13,9 @@ import {
     IconButton,
     Chip
 } from "@material-tailwind/react";
+import EditToDo from './EditToDo';
 
-const ToDoList = ({ keyData }) => {
+const ToDoList = ({ keyData, incrementKey }) => {
 
     const [tasks, setTasks] = useState([])
     const [open, setOpen] = useState(false);
@@ -43,9 +44,14 @@ const ToDoList = ({ keyData }) => {
                             </CardBody>
                             <CardFooter className="flex flex-row gap-1 pt-0 w-full">
                                 <Button color='green' className='grow'> <i className="fa-solid fa-check" /> Mark as completed</Button>
-                                <IconButton color="blue" className='grow-0'>
-                                    <i className="fas fa-edit" />
-                                </IconButton>
+
+                                <EditToDo
+                                    id={t.id}
+                                    title={t.title}
+                                    description={t.description}
+                                    incrementKey={incrementKey}
+                                />
+
                                 <IconButton
                                     color="red"
                                     className='grow-0'
