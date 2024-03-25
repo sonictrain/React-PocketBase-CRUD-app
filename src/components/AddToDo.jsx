@@ -31,7 +31,7 @@ function Icon() {
     );
 }
 
-const AddToDo = () => {
+const AddToDo = ({ incrementKey }) => {
 
     const [newTaskData, setNewTaskData] = useState({
         title: '',
@@ -73,6 +73,7 @@ const AddToDo = () => {
             setTimeout(() => {
                 setOpenConfirm(false);
                 setOpenDialog(false);
+                incrementKey();
             }, 3000);
 
         } else {

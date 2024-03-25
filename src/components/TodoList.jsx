@@ -9,13 +9,13 @@ import {
     Chip
 } from "@material-tailwind/react";
 
-const ToDoList = () => {
+const ToDoList = ({ keyData }) => {
 
     const [tasks, setTasks] = useState([])
 
     useEffect(() => {
         getTasks().then(res => setTasks(res));
-    }, [])
+    }, [keyData])
 
     return (
         <div>

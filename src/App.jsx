@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {
   Typography,
@@ -9,6 +10,12 @@ import AddToDo from './components/AddToDo';
 
 const App = () => {
 
+  const [keyData, setKeyData] = useState(0)
+
+  const incrementKey = () => {
+    setKeyData(keyData + 1);
+  }
+
   return (
     <div className='p-8 md:p-12 lg:p-20'>
       <div className="flex flex-row justify-between mb-20">
@@ -18,8 +25,8 @@ const App = () => {
           <Button>Sign Up</Button>
         </ButtonGroup> */}
       </div>
-      <ToDoList />
-      <AddToDo />
+      <ToDoList keyData={keyData}/>
+      <AddToDo incrementKey={incrementKey}/>
     </div>
   )
 }
