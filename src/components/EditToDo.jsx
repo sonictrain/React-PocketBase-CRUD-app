@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import { updateTask } from '../lib/pocketbase';
 import {
-    IconButton,
     Button,
     Dialog,
     Card,
@@ -13,7 +12,7 @@ import {
     Alert
 } from "@material-tailwind/react";
 
-const EditToDo = ({ id, title, description, incrementKey }) => {
+const EditToDo = ({ id, title, description, incrementKey, isCompleted }) => {
 
     const [taskData, setTaskData] = useState({
         title: title,
@@ -39,23 +38,20 @@ const EditToDo = ({ id, title, description, incrementKey }) => {
 
     }
 
-    const handleSubmit = (e) => {
-        console.log('handleSubmit running')
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { title, description } = taskData;
 
         if (title.length > 0 && description.length > 0) {
 
-            updateTask(id, title, description);
+            await updateTask(id, title, description);
             setAlertMsg('Task updated succefully.');
             setOpenConfirm(true);
 
-            setTimeout(() => {
-                setOpenConfirm(false);
-                setOpenDialog(false);
-                incrementKey();
-            }, 3000);
+            setOpenConfirm(false);
+            setOpenDialog(false);
+            incrementKey();
 
         } else {
             setAlertMsg('Please fill out all the fields.');
@@ -64,13 +60,14 @@ const EditToDo = ({ id, title, description, incrementKey }) => {
     }
 
     return (
-        <div>
-            <IconButton
+        <div className={isCompleted? 'w-auto' : 'basis-1/2'}>
+            <Button
                 color="blue"
-                className='grow-0'
+                disabled={isCompleted}
+                className='h-10 w-full'
                 onClick={handleOpen}>
-                <i className="fas fa-edit" />
-            </IconButton>
+                Edit
+            </Button>
 
             <Dialog
                 size="xs"
