@@ -12,13 +12,13 @@ export const getTasks = async () => {
 export const createTask = async (t, d) => {
     const data = { title: t, description: d }
     await client.collection("tasks").create(data);
-}
+};
 
 export const deleteTask = async (id, confirm) => {
     if (confirm) {
         await client.collection("tasks").delete(id);
     }
-}
+};
 
 export const updateTask = async (id, title, description) => {
     const data = {
@@ -26,4 +26,11 @@ export const updateTask = async (id, title, description) => {
         description: description
     };
     await client.collection("tasks").update(id, data);
-}
+};
+
+export const toggleTask = async (id, isCompleted) => {
+    const data = {
+        isCompleted: isCompleted
+    };
+    await client.collection("tasks").update(id, data);
+};
