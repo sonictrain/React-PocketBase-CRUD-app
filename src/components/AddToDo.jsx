@@ -36,15 +36,14 @@ const AddToDo = ({ incrementKey }) => {
 
     }
 
-    const handleSubmit = (e) => {
-        console.log('handleSubmit running')
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { title, description } = newTaskData;
 
         if (title.length > 0 && description.length > 0) {
 
-            createTask(title, description);
+            await createTask(title, description);
             setAlertMsg('The task has been saved succefully.');
             setOpenConfirm(true);
             setNewTaskData({
@@ -52,11 +51,9 @@ const AddToDo = ({ incrementKey }) => {
                 description: '',
             });
 
-            setTimeout(() => {
-                setOpenConfirm(false);
-                setOpenDialog(false);
-                incrementKey();
-            }, 3000);
+            setOpenConfirm(false);
+            setOpenDialog(false);
+            incrementKey();
 
         } else {
             setAlertMsg('Please fill out all the fields.');
