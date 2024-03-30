@@ -47,7 +47,7 @@ export const signIn = async (username, pwd) => {
 };
 
 export const signOut = () => {
-    client.authStore.clear;
+    client.authStore.clear();
 };
 
 export const signUp = async (data) => {
