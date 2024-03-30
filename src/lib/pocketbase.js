@@ -14,7 +14,7 @@ export const createTask = async (t, d) => {
     const data = {
         title: t,
         description: d,
-        user: client.authStore.model.id
+        field: client.authStore.model.id
     };
     await client.collection("tasks").create(data);
 };
@@ -29,7 +29,7 @@ export const updateTask = async (id, title, description) => {
     const data = {
         title: title,
         description: description,
-        user: client.authStore.model.id
+        field: client.authStore.model.id
     };
     await client.collection("tasks").update(id, data);
 };
@@ -37,7 +37,7 @@ export const updateTask = async (id, title, description) => {
 export const toggleTask = async (id, isCompleted) => {
     const data = {
         isCompleted: isCompleted,
-        user: client.authStore.model.id
+        field: client.authStore.model.id
     };
     await client.collection("tasks").update(id, data);
 };
@@ -50,11 +50,6 @@ export const signOut = () => {
     client.authStore.clear;
 };
 
-export const signUp = () => {
-    const data = {
-        username: username,
-        password: password,
-        passwordConfirm: passwordConfirm,
-    };
-    client.collection("users").create(data);
+export const signUp = async (data) => {
+    await client.collection("users").create(data);
 };
