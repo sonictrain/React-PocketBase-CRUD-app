@@ -4,9 +4,11 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
+  Button,
   Avatar,
   Typography,
 } from "@material-tailwind/react";
+import Avvvatars from 'avvvatars-react';
 import { signOut } from "../lib/pocketbase";
 
 const AvatarMenu = () => {
@@ -21,6 +23,7 @@ const AvatarMenu = () => {
     <div className="fixed top-0 right-0 m-8 md:m-12 lg:m-20">
       <Menu>
         <MenuHandler>
+          {/* replace with Avvvatars */}
           <Avatar
             variant="circular"
             alt="tania andrew"
