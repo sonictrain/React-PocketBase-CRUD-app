@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Card,
     Alert,
@@ -10,7 +10,7 @@ import {
     Input,
     Button,
 } from "@material-tailwind/react";
-import { client, signUp } from '../lib/pocketbase';
+import { signUp } from '../lib/pocketbase';
 
 const SignUp = () => {
 
@@ -20,7 +20,8 @@ const SignUp = () => {
         password: '',
         passwordConfirm: ''
     });
-    const navigate = useNavigate()
+
+    const navigate = useNavigate();
 
     const [openAlert, setOpenAlert] = useState(false);
     const [alertMsg, setAlertMsg] = useState('');
@@ -37,11 +38,12 @@ const SignUp = () => {
         e.preventDefault();
         setOpenAlert(false);
 
-        const { username, email, password, passwordConfirm } = userData
+        const { email, password } = userData
 
         if (email.length > 0 && password.length > 0) {
             try {
                 await signUp(userData);
+                navigate('/');
             } catch (error) {
                 console.log(error.status)
                 setAlertMsg(`Error ${error.status} - ${error.message}`);
