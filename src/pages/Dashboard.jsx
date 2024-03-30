@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ToDoList from '../components/TodoList';
 import AddToDo from '../components/AddToDo';
+import AvatarMenu from '../components/AvatarMenu';
 
 const Dashboard = () => {
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
   return (
     <>
         <ToDoList keyData={keyData} incrementKey={incrementKey}/>
+        <AvatarMenu />
         <AddToDo incrementKey={incrementKey}/>
     </>
   )
