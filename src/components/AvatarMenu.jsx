@@ -34,7 +34,7 @@ const AvatarMenu = () => {
 
         <MenuList>
           <MenuItem disabled className="flex items-center gap-2">
-            <i class="fa-regular fa-user"></i>
+            <i className="fa-regular fa-user"></i>
             <Typography variant="small" className="font-medium">
               My Profile
             </Typography>
