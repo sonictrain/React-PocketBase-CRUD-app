@@ -1,6 +1,6 @@
 import PocketBase from 'pocketbase';
 
-const url = import.meta.env.VITE_POCKETBASE_URL;
+export const url = import.meta.env.VITE_POCKETBASE_URL;
 export const client = new PocketBase(url);
 export const isUserValid = client.authStore.isValid;
 
