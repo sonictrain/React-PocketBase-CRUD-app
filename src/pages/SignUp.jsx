@@ -10,7 +10,8 @@ import {
     Input,
     Button,
 } from "@material-tailwind/react";
-import { signUp } from '../lib/pocketbase';
+import toast, { Toaster } from 'react-hot-toast';
+import { url } from '../lib/pocketbase';
 
 const SignUp = () => {
 
@@ -21,10 +22,17 @@ const SignUp = () => {
         passwordConfirm: ''
     });
 
-    const navigate = useNavigate();
+    const [errorMsg, setErrorMsg] = useState({
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirm: ''
+    });
 
-    const [openAlert, setOpenAlert] = useState(false);
-    const [alertMsg, setAlertMsg] = useState('');
+    const [globalErr, setGlobalErr] = useState(null);
+    const [showGlobalErr, setShowGlobalErr] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -32,99 +40,126 @@ const SignUp = () => {
             ...userData,
             [name]: value
         })
+        setErrorMsg({
+            ...userData,
+            [name]: ''
+        })
     };
 
-    const handleSubmit = async (e) => {
+    const notify = (message) => toast(message);
+
+    const handleSignUp = async (e) => {
         e.preventDefault();
-        setOpenAlert(false);
+        try {
+            const res = await fetch(`${url}/api/collections/users/records`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
 
-        const { email, password } = userData
+            const json = await res.json();
 
-        if (email.length > 0 && password.length > 0) {
-            try {
-                await signUp(userData);
-                navigate('/');
-            } catch (error) {
-                console.log(error.status)
-                setAlertMsg(`Error ${error.status} - ${error.message}`);
-                setOpenAlert(true);
-            }
-        } else {
-            setAlertMsg('Please fillout the form properly');
-            setOpenAlert(true);
+            console.log(res.json);
+
+            setErrorMsg({
+                username: json.data.username?.message,
+                email: json.data.email?.message,
+                password: json.data.password?.message,
+                passwordConfirm: json.data.passwordConfirm?.message
+            })
+
+            setErrorMsg(
+                setUserData(
+                    {
+                        username: '',
+                        email: '',
+                        password: '',
+                        passwordConfirm: ''
+                    }
+                )
+            );
+
+        } catch (err) {
+            notify(`${err.code} - ${err.message}`);
         }
-    };
+    }
 
     return (
         <>
-        <div className="w-full">
-            <Card className="w-96 mx-auto">
-                <CardHeader
-                    variant="gradient"
-                    color="gray"
-                    className="mb-4 grid h-28 place-items-center"
-                >
-                    <Typography variant="h3" color="white">
-                        Sign Up
-                    </Typography>
-                </CardHeader>
-                <form onSubmit={handleSubmit}>
-                    <CardBody className="flex flex-col gap-4">
-
-                        <Input
-                            label="Username"
-                            type="text"
-                            name='username'
-                            onChange={handleInputChange}
-                            size="lg" />
-
-                        <Input
-                            label="Email"
-                            type="email"
-                            name='email'
-                            onChange={handleInputChange}
-                            size="lg" />
-
-                        <Input
-                            label="Password"
-                            type="password"
-                            name='password'
-                            onChange={handleInputChange}
-                            size="lg" />
-
-                        <Input
-                            label="Confirm password"
-                            type="password"
-                            name='passwordConfirm'
-                            onChange={handleInputChange}
-                            size="lg" />
-
-                        {openAlert && (
-                            <Alert
-                                className="rounded-none border-l-4 border-[#c92e2e] bg-[#c92e2e]/10 font-medium text-[#c92e2e]"
-                            >
-                                {alertMsg}
-                            </Alert>
-                        )}
-
-                    </CardBody>
-                    <CardFooter className="pt-0">
-                        <Button
-                            variant="gradient"
-                            type='submit'
-                            fullWidth>
+            <div className="w-full">
+                <Card className="w-96 mx-auto">
+                    <CardHeader
+                        variant="gradient"
+                        color="gray"
+                        className="mb-4 grid h-28 place-items-center"
+                    >
+                        <Typography variant="h3" color="white">
                             Sign Up
-                        </Button>
-                        <div className='flex gap-1 justify-center items-center mt-4'>
-                            <Typography variant="paragraph">
-                                Already have an account?
-                            </Typography>
-                            <Link to='/'>Sign in</Link>
-                        </div>
-                    </CardFooter>
-                </form>
-            </Card>
-        </div>
+                        </Typography>
+                    </CardHeader>
+                    <form onSubmit={handleSignUp}>
+                        <CardBody className="flex flex-col gap-4">
+
+                            <Input
+                                label="Username"
+                                type="text"
+                                name='username'
+                                onChange={handleInputChange}
+                                size="lg" />
+                            {errorMsg.username && (
+                                <Typography
+                                    variant="small"
+                                    color="gray"
+                                    className="mt-2 flex items-center gap-1 font-normal"
+                                >
+                                    {errorMsg.username}
+                                </Typography>
+                            )}
+
+                            <Input
+                                label="Email"
+                                type="email"
+                                name='email'
+                                onChange={handleInputChange}
+                                size="lg" />
+
+
+                            <Input
+                                label="Password"
+                                type="password"
+                                name='password'
+                                onChange={handleInputChange}
+                                size="lg" />
+
+
+                            <Input
+                                label="Confirm password"
+                                type="password"
+                                name='passwordConfirm'
+                                onChange={handleInputChange}
+                                size="lg" />
+
+
+                        </CardBody>
+                        <CardFooter className="pt-0">
+                            <Button
+                                variant="gradient"
+                                type='submit'
+                                fullWidth>
+                                Sign Up
+                            </Button>
+                            <div className='flex gap-1 justify-center items-center mt-4'>
+                                <Typography variant="paragraph">
+                                    Already have an account?
+                                </Typography>
+                                <Link to='/'>Sign in</Link>
+                            </div>
+                        </CardFooter>
+                    </form>
+                </Card>
+            </div>
         </>
     )
 }
