@@ -42,10 +42,6 @@ export const toggleTask = async (id, isCompleted) => {
     await client.collection("tasks").update(id, data);
 };
 
-export const signIn = async (username, pwd) => {
-    await client.collection("users").authWithPassword(username, pwd);
-};
-
 export const signOut = () => {
     client.authStore.clear();
 };
