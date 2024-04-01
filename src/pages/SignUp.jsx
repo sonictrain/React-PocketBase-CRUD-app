@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {
     Card,
-    Alert,
     CardHeader,
     CardBody,
     CardFooter,
@@ -64,12 +63,24 @@ const SignUp = () => {
 
                 const json = await res.json();
 
-                console.log(res);
-
                 if (res.status == 200) {
-                    toast.success('Signed Up Correctly. Sign In now.');
+
+                    let countdown = 5
+                    const signedUpToastID = toast.success(`Signed Up Correctly. Redirecting to Sign in page in ${countdown} seconds`);
+                    const intervalID = setInterval(() => {
+                        if (countdown > 0) {
+                            countdown --;
+                            toast.success(`Signed Up Correctly. Redirecting to Sign in page in ${countdown} ${countdown > 1 ? 'seconds' : 'second'}`, {
+                                id: signedUpToastID,
+                            });
+                        } else {
+                            clearInterval(intervalID);
+                            navigate('/');
+                        }
+                    }, 1000);
+                    
                 } else {
-                    toast.error(`${json.message} - Please check the errors and try again.`)
+                    toast.error(`${json.message} - Please check the errors and try again.`);
                     setErrorMsg({
                         username: json.data.username?.message,
                         email: json.data.email?.message,
@@ -79,11 +90,9 @@ const SignUp = () => {
                 }
 
             } catch (err) {
-                toast.error(`${json.message} - Please check the errors and try again.`)
-
+                toast.error(`${err.message} - Please check the errors and try again.`)
             }
         }
-
     }
 
     return (
