@@ -29,9 +29,6 @@ const SignUp = () => {
         passwordConfirm: ''
     });
 
-    const [globalErr, setGlobalErr] = useState(null);
-    const [showGlobalErr, setShowGlobalErr] = useState(false);
-
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -40,41 +37,53 @@ const SignUp = () => {
             ...userData,
             [name]: value
         });
+        setErrorMsg({
+            ...errorMsg,
+            [name]: ''
+        });
     };
-
-    const notify = (message) => toast(message);
 
     const handleSignUp = async (e) => {
 
         e.preventDefault();
-        try {
-            const res = await fetch(`${url}/api/collections/users/records`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
 
-            const json = await res.json();
+        if (!userData.email) {
+            setErrorMsg({
+                ...errorMsg,
+                email: "Cannot be blank.",
+            })
+        } else {
+            try {
+                const res = await fetch(`${url}/api/collections/users/records`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData),
+                });
 
-            console.log(res);
+                const json = await res.json();
 
-            if (res.status == 200) {
-                toast.success('Signed Up Correctly. Sign In now.');
-            } else {
+                console.log(res);
+
+                if (res.status == 200) {
+                    toast.success('Signed Up Correctly. Sign In now.');
+                } else {
+                    toast.error(`${json.message} - Please check the errors and try again.`)
+                    setErrorMsg({
+                        username: json.data.username?.message,
+                        email: json.data.email?.message,
+                        password: json.data.password?.message,
+                        passwordConfirm: json.data.passwordConfirm?.message
+                    })
+                }
+
+            } catch (err) {
                 toast.error(`${json.message} - Please check the errors and try again.`)
-                setErrorMsg({
-                    username: json.data.username?.message,
-                    email: json.data.email?.message,
-                    password: json.data.password?.message,
-                    passwordConfirm: json.data.passwordConfirm?.message
-                })
-            }
 
-        } catch (err) {
-            notify(`${err.code} - ${err.message}`);
+            }
         }
+
     }
 
     return (
@@ -100,6 +109,13 @@ const SignUp = () => {
                     <form onSubmit={handleSignUp}>
                         <CardBody className="flex flex-col gap-4">
                             <div>
+                            <Typography
+                                        variant="small"
+                                        color="gray"
+                                        className="my-1 flex items-center gap-1 font-normal"
+                                    >
+                                        Optional: leave it empty to auto-generate.
+                                </Typography>
                                 <Input
                                     label="Username"
                                     type="text"
@@ -119,7 +135,7 @@ const SignUp = () => {
 
                             <div>
                                 <Input
-                                    label="Email"
+                                    label="Email *"
                                     type="email"
                                     name='email'
                                     onChange={handleInputChange}
@@ -137,7 +153,7 @@ const SignUp = () => {
 
                             <div>
                                 <Input
-                                    label="Password"
+                                    label="Password *"
                                     type="password"
                                     name='password'
                                     onChange={handleInputChange}
@@ -155,7 +171,7 @@ const SignUp = () => {
 
                             <div>
                                 <Input
-                                    label="Confirm password"
+                                    label="Confirm password *"
                                     type="password"
                                     name='passwordConfirm'
                                     onChange={handleInputChange}
