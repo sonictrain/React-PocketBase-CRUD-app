@@ -39,16 +39,13 @@ const SignUp = () => {
         setUserData({
             ...userData,
             [name]: value
-        })
-        setErrorMsg({
-            ...userData,
-            [name]: ''
-        })
+        });
     };
 
     const notify = (message) => toast(message);
 
     const handleSignUp = async (e) => {
+
         e.preventDefault();
         try {
             const res = await fetch(`${url}/api/collections/users/records`, {
@@ -61,25 +58,19 @@ const SignUp = () => {
 
             const json = await res.json();
 
-            console.log(res.json);
+            console.log(res);
 
-            setErrorMsg({
-                username: json.data.username?.message,
-                email: json.data.email?.message,
-                password: json.data.password?.message,
-                passwordConfirm: json.data.passwordConfirm?.message
-            })
-
-            setErrorMsg(
-                setUserData(
-                    {
-                        username: '',
-                        email: '',
-                        password: '',
-                        passwordConfirm: ''
-                    }
-                )
-            );
+            if (res.status == 200) {
+                toast.success('Signed Up Correctly. Sign In now.');
+            } else {
+                toast.error(`${json.message} - Please check the errors and try again.`)
+                setErrorMsg({
+                    username: json.data.username?.message,
+                    email: json.data.email?.message,
+                    password: json.data.password?.message,
+                    passwordConfirm: json.data.passwordConfirm?.message
+                })
+            }
 
         } catch (err) {
             notify(`${err.code} - ${err.message}`);
@@ -88,6 +79,13 @@ const SignUp = () => {
 
     return (
         <>
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+                toastOptions={{
+                    duration: 5000
+                }}
+            />
             <div className="w-full">
                 <Card className="w-96 mx-auto">
                     <CardHeader
@@ -101,46 +99,77 @@ const SignUp = () => {
                     </CardHeader>
                     <form onSubmit={handleSignUp}>
                         <CardBody className="flex flex-col gap-4">
+                            <div>
+                                <Input
+                                    label="Username"
+                                    type="text"
+                                    name='username'
+                                    onChange={handleInputChange}
+                                    size="lg" />
+                                {errorMsg.username && (
+                                    <Typography
+                                        variant="small"
+                                        color="gray"
+                                        className="my-1 flex items-center gap-1 font-normal"
+                                    >
+                                        {errorMsg.username}
+                                    </Typography>
+                                )}
+                            </div>
 
-                            <Input
-                                label="Username"
-                                type="text"
-                                name='username'
-                                onChange={handleInputChange}
-                                size="lg" />
-                            {errorMsg.username && (
-                                <Typography
-                                    variant="small"
-                                    color="gray"
-                                    className="mt-2 flex items-center gap-1 font-normal"
-                                >
-                                    {errorMsg.username}
-                                </Typography>
-                            )}
+                            <div>
+                                <Input
+                                    label="Email"
+                                    type="email"
+                                    name='email'
+                                    onChange={handleInputChange}
+                                    size="lg" />
+                                {errorMsg.email && (
+                                    <Typography
+                                        variant="small"
+                                        color="gray"
+                                        className="my-1 flex items-center gap-1 font-normal"
+                                    >
+                                        {errorMsg.email}
+                                    </Typography>
+                                )}
+                            </div>
 
-                            <Input
-                                label="Email"
-                                type="email"
-                                name='email'
-                                onChange={handleInputChange}
-                                size="lg" />
+                            <div>
+                                <Input
+                                    label="Password"
+                                    type="password"
+                                    name='password'
+                                    onChange={handleInputChange}
+                                    size="lg" />
+                                {errorMsg.password && (
+                                    <Typography
+                                        variant="small"
+                                        color="gray"
+                                        className="my-1 flex items-center gap-1 font-normal"
+                                    >
+                                        {errorMsg.password}
+                                    </Typography>
+                                )}
+                            </div>
 
-
-                            <Input
-                                label="Password"
-                                type="password"
-                                name='password'
-                                onChange={handleInputChange}
-                                size="lg" />
-
-
-                            <Input
-                                label="Confirm password"
-                                type="password"
-                                name='passwordConfirm'
-                                onChange={handleInputChange}
-                                size="lg" />
-
+                            <div>
+                                <Input
+                                    label="Confirm password"
+                                    type="password"
+                                    name='passwordConfirm'
+                                    onChange={handleInputChange}
+                                    size="lg" />
+                                {errorMsg.passwordConfirm && (
+                                    <Typography
+                                        variant="small"
+                                        color="gray"
+                                        className="my-1 flex items-center gap-1 font-normal"
+                                    >
+                                        {errorMsg.passwordConfirm}
+                                    </Typography>
+                                )}
+                            </div>
 
                         </CardBody>
                         <CardFooter className="pt-0">
