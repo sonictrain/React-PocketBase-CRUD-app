@@ -46,52 +46,45 @@ const SignUp = () => {
 
         e.preventDefault();
 
-        if (!userData.email) {
-            setErrorMsg({
-                ...errorMsg,
-                email: "Cannot be blank.",
-            })
-        } else {
-            try {
-                const res = await fetch(`${url}/api/collections/users/records`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(userData),
-                });
+        try {
+            const res = await fetch(`${url}/api/collections/users/records`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
 
-                const json = await res.json();
+            const json = await res.json();
 
-                if (res.status == 200) {
+            if (res.status == 200) {
 
-                    let countdown = 5
-                    const signedUpToastID = toast.success(`Signed Up Correctly. Redirecting to Sign in page in ${countdown} seconds`);
-                    const intervalID = setInterval(() => {
-                        if (countdown > 0) {
-                            countdown --;
-                            toast.success(`Signed Up Correctly. Redirecting to Sign in page in ${countdown} ${countdown > 1 ? 'seconds' : 'second'}`, {
-                                id: signedUpToastID,
-                            });
-                        } else {
-                            clearInterval(intervalID);
-                            navigate('/');
-                        }
-                    }, 1000);
-                    
-                } else {
-                    toast.error(`${json.message} - Please check the errors and try again.`);
-                    setErrorMsg({
-                        username: json.data.username?.message,
-                        email: json.data.email?.message,
-                        password: json.data.password?.message,
-                        passwordConfirm: json.data.passwordConfirm?.message
-                    })
-                }
+                let countdown = 5
+                const signedUpToastID = toast.success(`Signed Up Correctly. Redirecting to Sign in page in ${countdown} seconds`);
+                const intervalID = setInterval(() => {
+                    if (countdown > 0) {
+                        countdown--;
+                        toast.success(`Signed Up Correctly. Redirecting to Sign in page in ${countdown} ${countdown > 1 ? 'seconds' : 'second'}`, {
+                            id: signedUpToastID,
+                        });
+                    } else {
+                        clearInterval(intervalID);
+                        navigate('/');
+                    }
+                }, 1000);
 
-            } catch (err) {
-                toast.error(`${err.message} - Please check the errors and try again.`)
+            } else {
+                toast.error(`${json.message} - Please check the errors and try again.`);
+                setErrorMsg({
+                    username: json.data.username?.message,
+                    email: json.data.email?.message,
+                    password: json.data.password?.message,
+                    passwordConfirm: json.data.passwordConfirm?.message
+                })
             }
+
+        } catch (err) {
+            toast.error(`${err.message} - Please check the errors and try again.`)
         }
     }
 
@@ -118,12 +111,12 @@ const SignUp = () => {
                     <form onSubmit={handleSignUp}>
                         <CardBody className="flex flex-col gap-4">
                             <div>
-                            <Typography
-                                        variant="small"
-                                        color="gray"
-                                        className="my-1 flex items-center gap-1 font-normal"
-                                    >
-                                        Optional: leave it empty to auto-generate.
+                                <Typography
+                                    variant="small"
+                                    color="gray"
+                                    className="my-1 flex items-center gap-1 font-normal"
+                                >
+                                    Optional: leave it empty to auto-generate.
                                 </Typography>
                                 <Input
                                     label="Username"
