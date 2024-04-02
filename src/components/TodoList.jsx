@@ -33,7 +33,16 @@ const ToDoList = ({ keyData, incrementKey }) => {
     }
 
     useEffect(() => {
-        getTasks().then(res => setTasks(res));
+
+        const handleGetTasks = async () => {
+
+            await getTasks().then(res => {
+                setTasks(res)
+            });
+        };
+
+        handleGetTasks();
+
     }, [keyData])
 
     return (
@@ -42,7 +51,7 @@ const ToDoList = ({ keyData, incrementKey }) => {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4'>
                 {
                     tasks.map((t) => (
-                        <Card key={t.id} className={`mt-2 flex flex-col items-start ${t.isCompleted? 'bg-gray-300 line-through' : 'bg-white'}`}>
+                        <Card key={t.id} className={`mt-2 flex flex-col items-start ${t.isCompleted ? 'bg-gray-300 line-through' : 'bg-white'}`}>
                             <Chip value={t.id} variant="ghost" size="sm" className="rounded-full mt-5 ms-5" />
                             <CardBody className="pt-4 h-full">
                                 <div className='flex items-center'>
@@ -72,7 +81,7 @@ const ToDoList = ({ keyData, incrementKey }) => {
 
                                 <Button
                                     color="red"
-                                    className={`h-10 ${t.isCompleted? 'w-full' : 'basis-1/2'}`}
+                                    className={`h-10 ${t.isCompleted ? 'w-full' : 'basis-1/2'}`}
                                     onClick={handleOpen}>
                                     Delete
                                 </Button>
