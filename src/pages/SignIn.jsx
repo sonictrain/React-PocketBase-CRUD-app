@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
     Card,
-    Alert,
     CardHeader,
     CardBody,
     CardFooter,
@@ -11,7 +10,7 @@ import {
     Button,
 } from "@material-tailwind/react";
 import toast, { Toaster } from 'react-hot-toast';
-import { client, url } from '../lib/pocketbase';
+import { client } from '../lib/pocketbase';
 
 const SignIn = () => {
 
