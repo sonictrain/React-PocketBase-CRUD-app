@@ -98,7 +98,7 @@ const SignUp = () => {
                 }}
             />
             <div className="w-full">
-                <Card className="w-96 mx-auto">
+                <Card className="max-w-96 mt-10 mx-auto">
                     <CardHeader
                         variant="gradient"
                         color="gray"

@@ -67,7 +67,7 @@ const SignIn = () => {
             />
             {client.authStore.isValid && (<Navigate to="/dashboard" replace={true} />)}
             <div className="w-full">
-                <Card className="w-96 mx-auto">
+                <Card className="max-w-96 mt-10 mx-auto">
                     <CardHeader
                         variant="gradient"
                         color="gray"
