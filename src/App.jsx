@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ProtectedRoutes from './ProtectedRoutes';
+import Version from './components/Version';
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
+      <Version />
     </div>
   )
 }
