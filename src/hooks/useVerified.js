@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import pb from '../lib/pocketbase';
+import { pb } from '../lib/pocketbase';
 
 const useVerified = () => {
     const [isVerified, setIsVerified] = useState(false);
@@ -9,12 +9,24 @@ const useVerified = () => {
             const id = pb.authStore.model.id;
 
             const data = await pb.collection('users').getOne(id);
-            setIsVerified(data.verfied);
+            setIsVerified(data.verified);
         }
 
-        if (pb.authStore.isValid) checkVerified();
+        if (pb.authStore.isValid) {
+            checkVerified();
+        }
 
     }, []);
+
+    async function requestVerification() {
+        const email = pb.authStore.model.email;
+        const res = await pb.collection('users').requestVerification(email);
+        if (res) {
+            console.log("Verification email sent!");
+        }
+    }
     
-    return { isVerified };
+    return { isVerified, requestVerification };
 }
+
+export default useVerified;
