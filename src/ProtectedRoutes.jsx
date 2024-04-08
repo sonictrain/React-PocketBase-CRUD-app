@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom"
-import { client } from "./lib/pocketbase"
+import { pb } from "./lib/pocketbase"
 import SignIn from "./pages/SignIn"
 
 const useAuth = () => {
-    const user = client.authStore.isValid;
+    const user = pb.authStore.isValid;
     if (user) {
         return true;
     } else {
