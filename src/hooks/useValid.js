@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { client } from "../lib/pocketbase";
+import { pb } from "../lib/pocketbase";
 
 const useValid = () => {
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
         function checkValid() {
-            const userStatus = client.authStore.isValid;
+            const userStatus = pb.authStore.isValid;
             console.log(userStatus);
             setIsValid(userStatus);
         }

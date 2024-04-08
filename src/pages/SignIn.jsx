@@ -10,7 +10,7 @@ import {
     Button,
 } from "@material-tailwind/react";
 import toast, { Toaster } from 'react-hot-toast';
-import { client } from '../lib/pocketbase';
+import { pb } from '../lib/pocketbase';
 
 const SignIn = () => {
 
@@ -45,7 +45,7 @@ const SignIn = () => {
         setLoading(true);
 
         try {
-            const res = await client.collection("users").authWithPassword(userData.identity, userData.password);
+            const res = await pb.collection("users").authWithPassword(userData.identity, userData.password);
             if (res.token) {
                 setLoading(false);
                 navigate('/dashboard');
@@ -65,7 +65,7 @@ const SignIn = () => {
                     duration: 5000
                 }}
             />
-            {client.authStore.isValid && (<Navigate to="/dashboard" replace={true} />)}
+            {pb.authStore.isValid && (<Navigate to="/dashboard" replace={true} />)}
             <div className="w-full">
                 <Card className="max-w-96 mt-10 mx-auto">
                     <CardHeader
