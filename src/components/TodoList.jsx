@@ -14,7 +14,7 @@ import {
 } from "@material-tailwind/react";
 import EditToDo from './EditToDo';
 
-const ToDoList = ({ keyData, incrementKey }) => {
+const ToDoList = ({ keyData, incrementKey, email }) => {
 
     const [tasks, setTasks] = useState([])
     const [open, setOpen] = useState(false);
@@ -47,7 +47,7 @@ const ToDoList = ({ keyData, incrementKey }) => {
 
     return (
         <div>
-            <Typography variant="h3" className='text-2xl'>Task List</Typography>
+            <Typography variant="h3" className='text-2xl'>Welcome {email}, here is your task list</Typography>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4'>
                 {
                     tasks.map((t) => (
